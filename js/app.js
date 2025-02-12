@@ -436,3 +436,116 @@ const heroes = [
         firstApp: new Date('February 1, 1991')
     }
 ]
+
+/** Build cards **/
+const row = document.getElementById('row')
+
+const makeList =(el, arr)=> {
+    arr.forEach(item => {
+        const li = document.createElement('li')
+        li.classList.add('list-group-item', 'text-capitalize')
+
+        li.innerText = item 
+
+        el.appendChild(li)
+        
+    })
+}
+
+const buildCards =(obj)=> {
+
+
+    //make sure that row is empty
+    row.innerHTML = ''
+
+    const column = document.createElement('div')
+    column.classList.add('col')
+
+    const card = document.createElement('div')
+    card.classList.add('card', 'h-100')
+    card.setAttribute('id', `card-${obj.id}`)
+
+    const cardBody = document.createElement('div')
+    cardBody.classList.add('card-body')
+
+    const cardHeader = document.createElement('div')
+    cardHeader.classList.add('card-header')
+
+    const alias = document.createElement('h2')
+    alias.classList.add('text-capitalize', 'display-5')
+    alias.innerText = obj.alias
+
+    const heroName = document.createElement('p')
+    heroName.classList.add('text-capitalize', 'fst-italic')
+    heroName.innerText = obj.name
+
+    const powersLabel = document.createElement('h3')
+    powersLabel.classList.add('text-capitalize', 'text-danger')
+    powersLabel.innerText = 'powers'
+
+    const powersList = document.createElement('ul')
+    powersList.classList.add('list-group', 'list-group-flush')
+
+    makeList(powersList, obj.powers)
+
+    const teamsLabel = document.createElement('h3')
+    teamsLabel.classList.add('text-capitalize', 'text-primary')
+    teamsLabel.innerText = 'teams'
+
+    const teamsList = document.createElement('ul')
+    teamsList.classList.add('list-group', 'list-group-flush')
+
+    makeList(teamsList, obj.team)
+
+    const rivalsLabel = document.createElement('h3')
+    rivalsLabel.classList.add('text-capitalize', 'text-primary')
+    rivalsLabel.innerText = 'rivals'
+
+    const rivalsList = document.createElement('ul')
+    rivalsList.classList.add('list-group', 'list-group-flush')
+
+    makeList(rivalsList, obj.rivals)
+
+    // obj.rivals.forEach(rival => {
+    //     const li = document.createElement('li')
+    //     li.classList.add('list-group-item', 'text-capitalize')
+
+    //     li.innerText = rival 
+
+    //     rivalsList.appendChild(li)
+    // })
+
+    /**appendChild here!! */
+
+    const cardFooter = document.createElement('div')
+    cardFooter.classList.add('card-footer')
+
+    cardFooter.innerHTML = `
+        <p class="card-text">Species: ${obj.species}</p>
+        <p class="card-text">Franchise: ${obj.franchise}</p>
+        <p class="card-text">First App: ${obj.firstApp.getMonth() +1 }/${obj.firstApp.getFullYear()}</p`
+
+    cardHeader.appendChild(alias)
+    cardHeader.appendChild(heroName)
+    // append more children here to cardBody 
+
+    card.appendChild(cardHeader)
+
+    cardBody.appendChild(powersLabel)
+    cardBody.appendChild(powersList)
+
+    cardBody.appendChild(teamsLabel)
+    cardBody.appendChild(teamsList)
+
+    cardBody.appendChild(rivalsLabel)
+    cardBody.appendChild(rivalsList)
+
+    card.appendChild(cardBody)
+    card.appendChild(cardFooter)
+    column.appendChild(card)
+
+    row.appendChild(column)
+
+}
+
+buildCards(heroes[0])
