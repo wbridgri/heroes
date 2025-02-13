@@ -33,7 +33,7 @@ const heroes = [
         alias: 'spawn',
         powers: ['immortality', 'super strength','regenerate', 'necroplasm manipulation'],
         franchise: 'image',
-        team: null,
+        team: [],
         alignment: true,
         rivals: ['violator', 'a devil', 'billy kinkaid', 'the redeemer'],
         species: 'hellspawn',
@@ -177,7 +177,7 @@ const heroes = [
         alias: 'kite man',
         powers: ['can fly kites'],
         franchise: 'dc',
-        team: null,
+        team: [],
         alignment: false,
         rivals: ['batman', 'catwoman', 'swamp thing'],
         species: 'human',
@@ -213,7 +213,7 @@ const heroes = [
         alias: 'dr doom',
         powers: ['magic', 'smart', 'money'],
         franchise: 'marvel',
-        team: null,
+        team: [],
         alignment: false,
         rivals: ['fantastic four', 'hulk', 'x-men', 'black panther', 'mephistio'],
         species: 'human',
@@ -285,9 +285,9 @@ const heroes = [
         alias: 'venom',
         powers: ['goop', 'symbiote suit', 'super strength'],
         franchise: 'marvel',
-        team: null,
+        team: [],
         alignment: false,
-        rivals: ['spider-man', 'carnage', 'knull', 'shield'],
+        rivals: ['spider-man', 'carnage', 'shield'],
         species: 'alien',
         firstApp: new Date('September 1, 1986')
     },
@@ -441,22 +441,28 @@ const heroes = [
 const row = document.getElementById('row')
 
 const makeList =(el, arr)=> {
-    arr.forEach(item => {
-        const li = document.createElement('li')
-        li.classList.add('list-group-item', 'text-capitalize')
+    
 
-        li.innerText = item 
+    
 
-        el.appendChild(li)
-        
-    })
+    {
+        arr.forEach(item => {
+            const li = document.createElement('li')
+            li.classList.add('list-group-item', 'text-capitalize')
+    
+            li.innerText = item 
+    
+            el.appendChild(li)
+            
+        })
+    }
 }
 
 const buildCards =(obj)=> {
 
 
     //make sure that row is empty
-    row.innerHTML = ''
+    // row.innerHTML = '' acutally don't this breaks the program
 
     const column = document.createElement('div')
     column.classList.add('col')
@@ -471,8 +477,8 @@ const buildCards =(obj)=> {
     const cardHeader = document.createElement('div')
     cardHeader.classList.add('card-header')
 
-    const alias = document.createElement('h2')
-    alias.classList.add('text-capitalize', 'display-5')
+    const alias = document.createElement('h4') //should be an h2 very bad
+    alias.classList.add('text-capitalize')
     alias.innerText = obj.alias
 
     const heroName = document.createElement('p')
@@ -486,7 +492,10 @@ const buildCards =(obj)=> {
     const powersList = document.createElement('ul')
     powersList.classList.add('list-group', 'list-group-flush')
 
-    makeList(powersList, obj.powers)
+    if(typeof((obj.powers)) != []){
+
+        makeList(powersList, obj.powers)
+    }
 
     const teamsLabel = document.createElement('h3')
     teamsLabel.classList.add('text-capitalize', 'text-primary')
@@ -503,6 +512,8 @@ const buildCards =(obj)=> {
 
     const rivalsList = document.createElement('ul')
     rivalsList.classList.add('list-group', 'list-group-flush')
+
+    
 
     makeList(rivalsList, obj.rivals)
 
@@ -548,4 +559,75 @@ const buildCards =(obj)=> {
 
 }
 
-buildCards(heroes[0])
+
+
+// buildCards(heroes[0])
+
+// heroes.forEach(hero => {
+//     buildCards(hero)
+
+// })
+
+// console.log(typeof(heroes)) testing should come back as string 
+
+const loadCards = (arr) =>
+    {
+        arr.forEach( item => buildCards(item))
+    }
+
+    // loadCards(heroes)
+
+    const loadBtn = document.getElementById('loadBtn')
+
+    loadBtn.addEventListener('click' , (e)=>{
+
+        e.preventDefault()
+        row.innerHTML = ''
+
+        const filter = document.getElementById('filter').value
+
+        //Object.keys(obj) => returns an array of the keys of an object
+
+        //Object.values(obj) => returns an array of the values of an object
+
+        //arr.includes(item) => returns a boolean if item is in arr
+
+        // const franchise = document.getElementById('franchise').value
+        // console.log(franchise);
+
+        const cards = heroes.filter(hero => Object.values(hero).includes(filter)
+        )
+
+        loadCards(cards)
+    })
+
+    /**
+     * arr.filter() => return a copy array after an original array has been filtered through
+     * 
+     * 
+     * 
+     */
+
+let marvelHeroes = heroes.filter(hero => hero.franchise == 'marvel')
+
+// console.log(marvelHeroes)
+
+
+//DECLARATIVE
+// let dcHeroes = []
+
+// for(let hero of heroes) {
+//     if(hero.franchise == 'dc'){
+//         dcHeroes = [...dcHeroes, hero]
+//     }
+// }
+
+// console.log(dcHeroes)
+
+let dcHeroes = heroes.filter(hero => hero.franchise == 'dc')
+
+// console.log(dcHeroes)
+
+console.log(Object.values(heroes[0]))
+
+console.log(Object.keys(heroes[0]))
